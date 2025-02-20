@@ -1,16 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const navigation = [
-  { name: 'Início', href: '/' },
-  { name: 'Catálogo', href: '/catalog' },
-  { name: 'Planos', href: '#pricing' },
-  { name: 'Sobre', href: '/about' },
+  { name: "Início", href: "/" },
+  { name: "Catálogo", href: "/catalog" },
+  { name: "Planos", href: "/pricing" },
+  { name: "Sobre", href: "/about" },
 ];
 
 export default function Navbar() {
@@ -20,12 +24,15 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setUser(null);
-    router.push('/');
+    router.push("/");
   };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-black/80 backdrop-blur-sm">
-      <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <nav
+        className="flex items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="text-2xl font-bold text-white">StreamFlix</span>
@@ -84,9 +91,9 @@ export default function Navbar() {
           )}
         </div>
       </nav>
-      
+
       {/* Mobile menu */}
-      <div className={`lg:hidden ${mobileMenuOpen ? '' : 'hidden'}`}>
+      <div className={`lg:hidden ${mobileMenuOpen ? "" : "hidden"}`}>
         <div className="fixed inset-0 z-50" />
         <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
@@ -158,4 +165,4 @@ export default function Navbar() {
       </div>
     </header>
   );
-} 
+}

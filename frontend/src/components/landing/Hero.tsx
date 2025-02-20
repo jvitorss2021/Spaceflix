@@ -1,51 +1,64 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { PlayIcon } from '@heroicons/react/24/solid';
+import { BackgroundBeams } from "../ui/Backgroundbeams";
+import { SparklesCore } from "../ui/Sparklescore";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
-  const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
+
+  const handleNavigateToPricing = () => {
+    router.push("/pricing");
+  };
 
   return (
-    <div className="relative bg-black text-white">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-800 to-indigo-900 opacity-90" />
-      </div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-            Sua Nova Plataforma de
-            <span className="block text-indigo-400">Streaming Favorita</span>
-          </h1>
-          
-          <p className="mt-6 max-w-lg mx-auto text-xl md:text-2xl text-gray-300">
-            Assista aos melhores conteúdos em qualquer lugar, a qualquer momento.
-            Comece sua jornada hoje mesmo!
+    <div className="h-[100vh] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md relative">
+      {/* Background Effects Layer */}
+      <BackgroundBeams className="absolute inset-0 z-0" />
+
+      {/* Content Layer */}
+      <div className="relative z-10 flex flex-col items-center justify-center">
+        <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white mb-8">
+          StreamFlix
+        </h1>
+
+        {/* Effects Container */}
+        <div className="w-full max-w-4xl h-40 relative">
+          {/* Gradients */}
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
+
+          {/* Sparkles Effect */}
+          <SparklesCore
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={1200}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+          />
+
+          {/* Radial Gradient Mask */}
+          <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]" />
+        </div>
+
+        {/* Text Content */}
+        <div className="flex flex-col items-center justify-center mt-8">
+          <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl">
+            Sua Nova Plataforma de Streaming Favorita
           </p>
-          
-          <div className="mt-10 flex justify-center gap-4">
+
+          {/* Call to Action Buttons */}
+          <div className="mt-8 flex gap-4">
             <button
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              className={`
-                inline-flex items-center px-6 py-3 rounded-lg text-lg font-medium
-                transition-all duration-200 ease-in-out
-                ${isHovered 
-                  ? 'bg-indigo-600 text-white transform scale-105'
-                  : 'bg-white text-black hover:bg-indigo-600 hover:text-white'
-                }
-              `}
+              onClick={handleNavigateToPricing}
+              className="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-all"
             >
-              <PlayIcon className="w-5 h-5 mr-2" />
               Começar Agora
             </button>
-            
-            <button className="
-              inline-flex items-center px-6 py-3 rounded-lg text-lg font-medium
-              border-2 border-white text-white hover:bg-white hover:text-black
-              transition-all duration-200 ease-in-out
-            ">
+            <button className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all">
               Saiba Mais
             </button>
           </div>
@@ -53,4 +66,4 @@ export default function Hero() {
       </div>
     </div>
   );
-} 
+}
