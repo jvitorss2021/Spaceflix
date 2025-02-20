@@ -133,3 +133,4 @@
 /home/joaovitor/projetos/Saas/backend/obj/Debug/net8.0/backend.pdb
 /home/joaovitor/projetos/Saas/backend/obj/Debug/net8.0/backend.genruntimeconfig.cache
 /home/joaovitor/projetos/Saas/backend/obj/Debug/net8.0/ref/backend.dll
+/home/joaovitor/projetos/Saas/backend/obj/Debug/net8.0/backend.sourcelink.json
