@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 const navigation = [
   { name: "Início", href: "/" },
   { name: "Catálogo", href: "/catalog" },
-  { name: "Planos", href: "/pricing" },
   { name: "Sobre", href: "/about" },
 ];
 
@@ -64,7 +63,9 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
               <div className="flex items-center text-white">
                 <UserCircleIcon className="h-6 w-6 mr-2" />
-                <span className="text-sm font-semibold">{user.name}</span>
+                <span className="text-sm font-semibold leading-6">
+                  {user.name}
+                </span>
               </div>
               <button
                 onClick={handleLogout}
@@ -74,7 +75,7 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <>
+            <div className="flex items-center gap-4">
               <Link
                 href="/login"
                 className="text-sm font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
@@ -87,7 +88,7 @@ export default function Navbar() {
               >
                 Começar
               </Link>
-            </>
+            </div>
           )}
         </div>
       </nav>
