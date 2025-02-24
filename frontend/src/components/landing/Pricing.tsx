@@ -1,12 +1,15 @@
 "use client";
 
+import { useState } from "react";
+import { PaymentModal } from "../ui/PaymentModal";
+import { CardSpotlight } from "../ui/Cardspotlight";
 import { BackgroundBeams } from "../ui/Backgroundbeams";
 import { CheckIcon } from "@heroicons/react/24/solid";
 
 const tiers = [
   {
     name: "Básico",
-    price: "R$ 29,90",
+    price: "R$ 19,90",
     frequency: "/mês",
     description: "Perfeito para começar sua jornada de streaming.",
     features: [
@@ -21,13 +24,13 @@ const tiers = [
   },
   {
     name: "Premium",
-    price: "R$ 49,90",
+    price: "R$ 44,90",
     frequency: "/mês",
     description: "A melhor experiência de streaming para você e sua família.",
     features: [
       "Todo o conteúdo do plano Básico",
       "Ultra HD (4K) e HDR",
-      "4 telas simultâneas",
+      "3 telas simultâneas",
       "Downloads para assistir offline",
       "Conteúdo exclusivo",
       "Áudio espacial",
@@ -37,7 +40,7 @@ const tiers = [
   },
   {
     name: "Família",
-    price: "R$ 69,90",
+    price: "R$ 64,90",
     frequency: "/mês",
     description: "Ideal para toda a família aproveitar junto.",
     features: [
@@ -54,6 +57,22 @@ const tiers = [
 ];
 
 export default function Pricing() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<{
+    name: string;
+    price: string;
+    frequency: string;
+  } | null>(null);
+
+  const handlePlanSelection = (tier: (typeof tiers)[0]) => {
+    setSelectedPlan({
+      name: tier.name,
+      price: tier.price,
+      frequency: tier.frequency,
+    });
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="bg-black py-24 relative">
       <BackgroundBeams className="absolute inset-0 z-0" />
@@ -69,13 +88,13 @@ export default function Pricing() {
 
         <div className="mt-20 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
           {tiers.map((tier) => (
-            <div
+            <CardSpotlight
               key={tier.name}
-              className={`relative flex flex-col rounded-2xl ${
+              className={`${
                 tier.featured
-                  ? "bg-indigo-600 text-white shadow-xl"
-                  : "bg-black/50 text-white border border-gray-800"
-              } p-8`}
+                  ? "bg-indigo-600/10 border-indigo-600/20"
+                  : "bg-black/50 border-gray-800"
+              }flex flex-col h-full`}
             >
               <div className="flex-1">
                 <h3 className="text-xl font-semibold">{tier.name}</h3>
@@ -109,6 +128,7 @@ export default function Pricing() {
               </div>
 
               <button
+                onClick={() => handlePlanSelection(tier)}
                 className={`mt-8 block w-full py-3 px-6 rounded-md text-center font-medium ${
                   tier.featured
                     ? "bg-white text-indigo-600 hover:bg-gray-100"
@@ -117,10 +137,15 @@ export default function Pricing() {
               >
                 {tier.cta}
               </button>
-            </div>
+            </CardSpotlight>
           ))}
         </div>
       </div>
+      <PaymentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedPlan={selectedPlan}
+      />
     </div>
   );
 }

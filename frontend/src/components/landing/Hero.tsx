@@ -13,10 +13,8 @@ export default function Hero() {
 
   return (
     <div className="h-[100vh] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md relative">
-      {/* Background Effects Layer */}
       <BackgroundBeams className="absolute inset-0 z-0" />
 
-      {/* Content Layer */}
       <div className="relative z-10 flex flex-col items-center justify-center">
         <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white mb-8">
           StreamFlix
@@ -44,13 +42,11 @@ export default function Hero() {
           <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]" />
         </div>
 
-        {/* Text Content */}
         <div className="flex flex-col items-center justify-center mt-8">
           <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl">
             Sua Nova Plataforma de Streaming Favorita
           </p>
 
-          {/* Call to Action Buttons */}
           <div className="mt-8 flex gap-4">
             <button
               onClick={handleNavigateToPricing}
