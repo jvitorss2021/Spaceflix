@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '@/services/api';
-import Cookies from 'js-cookie';
+import { createContext, useContext, useState, useEffect } from "react";
+import { User } from "@/services/api";
+import Cookies from "js-cookie";
 
 interface AuthContextType {
   user: User | null;
@@ -17,10 +17,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há um usuário salvo nos cookies
-    const savedUser = Cookies.get('user');
+    const savedUser = Cookies.get("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error("Erro ao analisar usuário do cookie:", error);
+        Cookies.remove("user");
+      }
     }
     setIsLoading(false);
   }, []);
@@ -28,11 +32,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const handleSetUser = (newUser: User | null) => {
     setUser(newUser);
     if (newUser) {
-      // Salvar usuário nos cookies com expiração de 7 dias
-      Cookies.set('user', JSON.stringify(newUser), { expires: 7 });
+      Cookies.set("user", JSON.stringify(newUser), { expires: 7 });
     } else {
-      // Remover usuário dos cookies ao fazer logout
-      Cookies.remove('user');
+      Cookies.remove("user");
     }
   };
 
@@ -46,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-} 
+}

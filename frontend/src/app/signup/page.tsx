@@ -37,8 +37,10 @@ export default function SignUp() {
       });
       setUser(user);
       router.push("/catalog");
-    } catch (err: any) {
-      setError(err.response?.data || "Erro ao criar conta. Tente novamente.");
+    } catch (error) {
+      console.error("Register error:", error);
+
+      setError("Erro ao criar conta. Tente novamente.");
     } finally {
       setIsLoading(false);
     }

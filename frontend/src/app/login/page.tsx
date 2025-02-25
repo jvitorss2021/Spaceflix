@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import { authService } from "@/services/api";
 
 export default function Login() {
@@ -11,6 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,12 +20,21 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const user = await authService.login({ email, password });
-      // TODO: Implementar gerenciamento de estado do usuário
-      console.log("Login successful:", user);
+      const response = await authService.login({
+        email,
+        password,
+      });
+
+      console.log("Login successful:", response);
+
+      // Aqui é importante: deve salvar o usuário no contexto
+      setUser(response);
+
+      // Redirecionar para o catálogo
       router.push("/catalog");
-    } catch (err: any) {
-      setError(err.response?.data || "Erro ao fazer login. Tente novamente.");
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Email ou senha inválidos");
     } finally {
       setIsLoading(false);
     }
