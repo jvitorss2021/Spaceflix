@@ -1,18 +1,47 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { contentService, Content } from '@/services/api';
+import { useState, useEffect, useCallback } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { contentService, Content } from "@/services/api";
+import Image from "next/image";
 
 export default function Catalog() {
   const [contents, setContents] = useState<Content[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+
+  const loadContents = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await contentService.getContents();
+      setContents(data);
+      setError("");
+    } catch (error) {
+      setError("Erro ao carregar o catálogo. Tente novamente.");
+      console.error("Error loading contents:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const searchContents = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await contentService.searchContents(searchQuery);
+      setContents(data);
+      setError("");
+    } catch (error) {
+      setError("Erro ao buscar conteúdo. Tente novamente.");
+      console.error("Error searching contents:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
     loadContents();
-  }, []);
+  }, [loadContents]);
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -24,35 +53,7 @@ export default function Catalog() {
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchQuery]);
-
-  const loadContents = async () => {
-    try {
-      setIsLoading(true);
-      const data = await contentService.getContents();
-      setContents(data);
-      setError('');
-    } catch (err: any) {
-      setError('Erro ao carregar o catálogo. Tente novamente.');
-      console.error('Error loading contents:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const searchContents = async () => {
-    try {
-      setIsLoading(true);
-      const data = await contentService.searchContents(searchQuery);
-      setContents(data);
-      setError('');
-    } catch (err: any) {
-      setError('Erro ao buscar conteúdo. Tente novamente.');
-      console.error('Error searching contents:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [searchQuery, searchContents, loadContents]);
 
   return (
     <div className="min-h-screen bg-gray-900 py-20">
@@ -94,14 +95,16 @@ export default function Catalog() {
                 key={content.id}
                 className="relative group cursor-pointer transform transition-transform duration-200 hover:scale-105"
               >
-                <img
+                <Image
                   src={content.thumbnailUrl}
                   alt={content.title}
                   className="w-full h-auto rounded-lg shadow-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
                   <div className="absolute bottom-0 p-4">
-                    <h3 className="text-white font-semibold">{content.title}</h3>
+                    <h3 className="text-white font-semibold">
+                      {content.title}
+                    </h3>
                     <div className="flex items-center space-x-2 text-sm text-gray-300">
                       <span>{content.releaseYear}</span>
                       <span>•</span>
@@ -118,4 +121,4 @@ export default function Catalog() {
       </div>
     </div>
   );
-} 
+}
