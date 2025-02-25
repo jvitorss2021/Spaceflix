@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 using backend.Data;
 using backend.Models;
+using backend.Services;
 
 namespace backend.Controllers;
 
@@ -12,10 +11,13 @@ namespace backend.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly TokenService _tokenService;
 
-    public AuthController(AppDbContext context)
+public AuthController(AppDbContext context, TokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
+
     }
 
     [HttpPost("register")]
@@ -38,13 +40,16 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
+        var token = _tokenService.GenerateToken(user);
+
         return Ok(new
         {
             user.Id,
             user.Email,
             user.Name,
             user.CreatedAt,
-            user.SubscriptionPlan
+            user.SubscriptionPlan,
+            Token = token
         });
     }
 
@@ -64,27 +69,28 @@ public class AuthController : ControllerBase
             return BadRequest("Senha incorreta");
         }
 
+       var token = _tokenService.GenerateToken(user);
+
         return Ok(new
         {
             user.Id,
             user.Email,
             user.Name,
             user.CreatedAt,
-            user.SubscriptionPlan
+            user.SubscriptionPlan,
+            Token = token
         });
     }
 
-    private string HashPassword(string password)
-    {
-        using var sha256 = SHA256.Create();
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(hashedBytes);
-    }
+private string HashPassword(string password)
+{
+    return BCrypt.Net.BCrypt.HashPassword(password);
+}
 
-    private bool VerifyPassword(string password, string hash)
-    {
-        return HashPassword(password) == hash;
-    }
+private bool VerifyPassword(string password, string hash)
+{
+    return BCrypt.Net.BCrypt.Verify(password, hash);
+}
 }
 
 public class RegisterDto
