@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backend.Services;
+using backend.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +55,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        await context.Database.MigrateAsync();
+        await DatabaseSeeder.SeedDatabase(context);
+        Console.WriteLine("Banco de dados populado com sucesso!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro ao popular o banco de dados: {ex.Message}");
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

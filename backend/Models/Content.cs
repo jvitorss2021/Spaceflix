@@ -5,7 +5,7 @@ public class Content
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Type { get; set; } = string.Empty; // movie, series, documentary
+    public string Type { get; set; } = string.Empty; 
     public string ThumbnailUrl { get; set; } = string.Empty;
     public string ContentUrl { get; set; } = string.Empty;
     public string Genre { get; set; } = string.Empty;
@@ -19,5 +19,5 @@ public class Content
     public List<WatchHistory> WatchHistory { get; set; } = new();
     public List<Favorite> Favorites { get; set; } = new();
     public double AverageRating { get; set; }
-    public string RequiredPlan { get; set; } = "basic"; // basic, premium, family
+
 } 

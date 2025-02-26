@@ -31,8 +31,7 @@ namespace backend.Migrations
                     MaturityRating = table.Column<string>(type: "text", nullable: false),
                     IsFeatured = table.Column<bool>(type: "boolean", nullable: false),
                     AddedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AverageRating = table.Column<double>(type: "double precision", nullable: false),
-                    RequiredPlan = table.Column<string>(type: "text", nullable: false)
+                    AverageRating = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {

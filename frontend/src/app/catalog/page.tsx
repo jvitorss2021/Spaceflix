@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { contentService, Content } from "@/services/api";
-import Image from "next/image";
+import { ExpandableCard } from "@/components/ui/ExpandableCard";
 
 export default function Catalog() {
   const [contents, setContents] = useState<Content[]>([]);
@@ -91,30 +91,15 @@ export default function Catalog() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {contents.map((content) => (
-              <div
+              <ExpandableCard
                 key={content.id}
-                className="relative group cursor-pointer transform transition-transform duration-200 hover:scale-105"
-              >
-                <Image
-                  src={content.thumbnailUrl}
-                  alt={content.title}
-                  className="w-full h-auto rounded-lg shadow-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
-                  <div className="absolute bottom-0 p-4">
-                    <h3 className="text-white font-semibold">
-                      {content.title}
-                    </h3>
-                    <div className="flex items-center space-x-2 text-sm text-gray-300">
-                      <span>{content.releaseYear}</span>
-                      <span>•</span>
-                      <span>{content.genre}</span>
-                      <span>•</span>
-                      <span>{content.maturityRating}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                title={content.title}
+                description={content.description}
+                thumbnailUrl={content.thumbnailUrl}
+                releaseYear={content.releaseYear}
+                genre={content.genre}
+                maturityRating={content.maturityRating}
+              />
             ))}
           </div>
         )}

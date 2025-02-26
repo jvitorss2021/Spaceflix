@@ -69,10 +69,6 @@ namespace backend.Migrations
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("integer");
 
-                    b.Property<string>("RequiredPlan")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ThumbnailUrl")
                         .IsRequired()
                         .HasColumnType("text");

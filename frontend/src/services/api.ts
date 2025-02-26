@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: "http://localhost:5000/api",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -31,43 +31,38 @@ export interface Content {
   title: string;
   description: string;
   thumbnailUrl: string;
-  type: string;
-  genre: string;
   releaseYear: number;
+  genre: string;
   maturityRating: string;
-  contentUrl: string;
-  director: string;
-  cast: string;
-  durationMinutes: number;
-  averageRating: number;
-  requiredPlan: string;
 }
 
 export const authService = {
   async login(data: LoginData): Promise<User> {
-    const response = await api.post('/auth/login', data);
+    const response = await api.post("/auth/login", data);
     return response.data;
   },
 
   async register(data: RegisterData): Promise<User> {
-    const response = await api.post('/auth/register', data);
+    const response = await api.post("/auth/register", data);
     return response.data;
   },
 };
 
 export const contentService = {
   async getContents(): Promise<Content[]> {
-    const response = await api.get('/content');
+    const response = await api.get("/content");
     return response.data;
   },
 
   async getFeaturedContents(): Promise<Content[]> {
-    const response = await api.get('/content/featured');
+    const response = await api.get("/content/featured");
     return response.data;
   },
 
   async searchContents(query: string): Promise<Content[]> {
-    const response = await api.get(`/content/search?query=${encodeURIComponent(query)}`);
+    const response = await api.get(
+      `/content/search?query=${encodeURIComponent(query)}`
+    );
     return response.data;
   },
 
@@ -77,4 +72,4 @@ export const contentService = {
   },
 };
 
-export default api; 
+export default api;

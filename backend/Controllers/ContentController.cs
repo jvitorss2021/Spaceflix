@@ -10,19 +10,34 @@ namespace backend.Controllers;
 public class ContentController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<ContentController> _logger;
 
-    public ContentController(AppDbContext context)
+    public ContentController(AppDbContext context, ILogger<ContentController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Content>>> GetContents()
     {
-        return await _context.Contents
-            .OrderByDescending(c => c.AddedAt)
-            .Take(10)
-            .ToListAsync();
+        try
+        {
+            _logger.LogInformation("Buscando todos os conteúdos");
+            
+            var contents = await _context.Contents
+                .OrderByDescending(c => c.AddedAt)
+                .ToListAsync();
+
+            _logger.LogInformation($"Encontrados {contents.Count} conteúdos");
+            
+            return Ok(contents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao buscar conteúdos");
+            return StatusCode(500, "Erro interno ao buscar conteúdos");
+        }
     }
 
     [HttpGet("{id}")]
@@ -32,6 +47,7 @@ public class ContentController : ControllerBase
 
         if (content == null)
         {
+            _logger.LogWarning($"Conteúdo com ID {id} não encontrado");
             return NotFound();
         }
 
@@ -41,11 +57,21 @@ public class ContentController : ControllerBase
     [HttpGet("featured")]
     public async Task<ActionResult<IEnumerable<Content>>> GetFeaturedContents()
     {
-        return await _context.Contents
-            .Where(c => c.IsFeatured)
-            .OrderByDescending(c => c.AddedAt)
-            .Take(5)
-            .ToListAsync();
+        try
+        {
+            var contents = await _context.Contents
+                .Where(c => c.IsFeatured)
+                .OrderByDescending(c => c.AddedAt)
+                .ToListAsync();
+
+            _logger.LogInformation($"Encontrados {contents.Count} conteúdos em destaque");
+            return Ok(contents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao buscar conteúdos em destaque");
+            return StatusCode(500, "Erro interno ao buscar conteúdos em destaque");
+        }
     }
 
     [HttpGet("search")]
@@ -53,13 +79,24 @@ public class ContentController : ControllerBase
     {
         if (string.IsNullOrWhiteSpace(query))
         {
-            return BadRequest("Query parameter is required");
+            return BadRequest("Parâmetro de busca é obrigatório");
         }
 
-        return await _context.Contents
-            .Where(c => c.Title.Contains(query) || c.Description.Contains(query))
-            .OrderByDescending(c => c.AddedAt)
-            .Take(20)
-            .ToListAsync();
+        try
+        {
+            var contents = await _context.Contents
+                .Where(c => c.Title.ToLower().Contains(query.ToLower()) || 
+                           c.Description.ToLower().Contains(query.ToLower()))
+                .OrderByDescending(c => c.AddedAt)
+                .ToListAsync();
+
+            _logger.LogInformation($"Busca por '{query}' retornou {contents.Count} resultados");
+            return Ok(contents);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Erro ao buscar conteúdos com query: {query}");
+            return StatusCode(500, "Erro interno ao realizar busca");
+        }
     }
-} 
+}
