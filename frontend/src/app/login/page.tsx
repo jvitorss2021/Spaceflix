@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { authService } from "@/services/api";
+import { BackgroundBeams } from "@/components/ui/Backgroundbeams";
 
 export default function Login() {
   const router = useRouter();
@@ -41,7 +42,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
+      <BackgroundBeams className="absolute inset-0 z-0" />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
           Entre na sua conta
