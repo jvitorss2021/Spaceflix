@@ -30,7 +30,7 @@ const features = [
 
 export default function Features() {
   return (
-    <div className="py-24 bg-black relative">
+    <div id="features" className="py-24 bg-black relative">
       <BackgroundBeams className="absolute inset-0 z-0" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">

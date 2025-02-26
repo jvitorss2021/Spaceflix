@@ -7,8 +7,15 @@ import { useRouter } from "next/navigation";
 export default function Hero() {
   const router = useRouter();
 
-  const handleNavigateToPricing = () => {
-    router.push("/pricing");
+  const handleNavigateToCatalog = () => {
+    router.push("/catalog");
+  };
+  const handleScrollToFeatures = () => {
+    // Rola suavemente até a seção de Features
+    const featuresSection = document.getElementById("features");
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -49,12 +56,15 @@ export default function Hero() {
 
           <div className="mt-8 flex gap-4">
             <button
-              onClick={handleNavigateToPricing}
+              onClick={handleNavigateToCatalog}
               className="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-all"
             >
               Começar Agora
             </button>
-            <button className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all">
+            <button
+              onClick={handleScrollToFeatures}
+              className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all"
+            >
               Saiba Mais
             </button>
           </div>
