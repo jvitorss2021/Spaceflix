@@ -27,14 +27,14 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black/80 backdrop-blur-sm">
+    <header className="fixed inset-x-0 top-0 z-50 bg-black/60 backdrop-blur-sm">
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="flex scale items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex scale-90 lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-2xl font-bold text-white">StreamFlix</span>
+            <span className="text-2xl font-bold text-white">SpaceFlix</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -52,7 +52,7 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
+              className="text-sm scale-95 font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
             >
               {item.name}
             </Link>
@@ -63,13 +63,13 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
               <div className="flex items-center text-white">
                 <UserCircleIcon className="h-6 w-6 mr-2" />
-                <span className="text-sm font-semibold leading-6">
+                <span className="text-sm scale-90 font-semibold leading-6">
                   {user.name}
                 </span>
               </div>
               <button
                 onClick={handleLogout}
-                className="text-sm font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
+                className="text-sm font-semibold scale-90 leading-6 text-white hover:text-indigo-400 transition-colors"
               >
                 Sair
               </button>
@@ -78,13 +78,13 @@ export default function Navbar() {
             <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="text-sm font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
+                className="text-sm scale-90 font-semibold leading-6 text-white hover:text-indigo-400 transition-colors"
               >
                 Entrar
               </Link>
               <Link
                 href="/signup"
-                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors"
+                className="rounded-lg scale-90 bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors"
               >
                 Começar
               </Link>

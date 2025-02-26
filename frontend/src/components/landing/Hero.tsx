@@ -22,9 +22,9 @@ export default function Hero() {
     <div className="h-[100vh] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md relative">
       <BackgroundBeams className="absolute inset-0 z-0" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center">
+      <div className="relative z-10 scale-75 flex flex-col items-center justify-center">
         <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white mb-8">
-          StreamFlix
+          SpaceFlix
         </h1>
 
         {/* Effects Container */}
@@ -51,7 +51,7 @@ export default function Hero() {
 
         <div className="flex flex-col items-center justify-center mt-8">
           <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl">
-            Sua Nova Plataforma de Streaming Favorita
+            Um universo de filmes, séries e documentários para você explorar
           </p>
 
           <div className="mt-8 flex gap-4">

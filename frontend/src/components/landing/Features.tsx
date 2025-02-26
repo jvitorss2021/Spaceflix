@@ -32,7 +32,7 @@ export default function Features() {
   return (
     <div id="features" className="py-24 bg-black relative">
       <BackgroundBeams className="absolute inset-0 z-0" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl scale-75 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
             Por que escolher nossa plataforma?

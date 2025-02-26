@@ -58,7 +58,7 @@ export default function SignUp() {
   return (
     <div className="min-h-screen bg-black flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
       <BackgroundBeams className="absolute inset-0 z-0" />
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="sm:mx-auto sm:w-full scale-90 sm:max-w-md relative z-10">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
           Crie sua conta
         </h2>
@@ -73,8 +73,8 @@ export default function SignUp() {
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-gray-900 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="mt-2 sm:mx-auto scale-90 sm:w-full sm:max-w-md relative z-10">
+        <div className="bg-gray-700 bg-opacity-10 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {error && (
             <div
               className="mb-4 bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded relative"
