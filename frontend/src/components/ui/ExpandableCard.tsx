@@ -49,49 +49,45 @@ export const ExpandableCard = ({
         <div className="absolute inset-0 p-4 flex flex-col justify-end">
           <motion.div
             animate={{
-              y: isExpanded ? 0 : 60,
+              y: isExpanded ? 0 : 0, // Removido o deslocamento inicial
             }}
             transition={{
               duration: 0.5,
               ease: "easeInOut",
             }}
           >
+            {/* Título sempre visível */}
             <h3 className="text-white font-bold text-xl mb-2">{title}</h3>
-            <div className="flex items-center space-x-2 text-sm text-gray-300 mb-4">
-              <span>{releaseYear}</span>
-              <span>•</span>
-              <span>{genre}</span>
-              <span>•</span>
-              <span>{maturityRating}</span>
-            </div>
 
-            <motion.p
-              className="text-gray-300 text-sm"
-              animate={{
-                opacity: isExpanded ? 1 : 0,
-              }}
-              transition={{
-                duration: 0.5,
-              }}
-            >
-              {description}
-            </motion.p>
-
+            {/* Informações extras visíveis apenas quando expandido */}
             <motion.div
-              className="flex gap-2 mt-4"
               animate={{
                 opacity: isExpanded ? 1 : 0,
+                height: isExpanded ? "auto" : 0,
               }}
               transition={{
                 duration: 0.5,
               }}
+              className="overflow-hidden"
             >
-              <button className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90">
-                Assistir
-              </button>
-              <button className="px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/30">
-                Trailer
-              </button>
+              <div className="flex items-center space-x-2 text-sm text-gray-300 mb-4">
+                <span>{releaseYear}</span>
+                <span>•</span>
+                <span>{genre}</span>
+                <span>•</span>
+                <span>{maturityRating}</span>
+              </div>
+
+              <p className="text-gray-300 text-sm mb-4">{description}</p>
+
+              <div className="flex gap-2">
+                <button className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90">
+                  Assistir
+                </button>
+                <button className="px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/30">
+                  Trailer
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         </div>
