@@ -1,4 +1,5 @@
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data.Seed;
 
@@ -7,12 +8,12 @@ public static class DatabaseSeeder
     public static async Task SeedDatabase(AppDbContext context)
     {
         await SeedContents(context);
+        await context.SaveChangesAsync();
     }
 
     private static async Task SeedContents(AppDbContext context)
     {
-        if (!context.Contents.Any())
-        {
+            var existingTitles = await context.Contents.Select(c => c.Title).ToListAsync();
             var contents = new List<Content>
             {
                 new Content
@@ -49,8 +50,17 @@ public static class DatabaseSeeder
                 }
             };
 
-            await context.Contents.AddRangeAsync(contents);
+        var newContents = contents.Where(c => !existingTitles.Contains(c.Title)).ToList();
+    
+        if (newContents.Any())
+        {
+            await context.Contents.AddRangeAsync(newContents);
             await context.SaveChangesAsync();
+            Console.WriteLine($"Adicionados {newContents.Count} novos filmes ao catálogo.");
+        }
+        else
+        {
+            Console.WriteLine("Nenhum novo conteúdo para adicionar");
         }
     }
 }

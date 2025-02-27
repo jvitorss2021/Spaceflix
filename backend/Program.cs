@@ -39,12 +39,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
+              .AllowAnyHeader();
     });
 });
 
@@ -62,7 +61,30 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        await context.Database.MigrateAsync();
+        
+        bool migrationInconsistency = false;
+        
+        try {
+            await context.Contents.FirstOrDefaultAsync();
+            
+            migrationInconsistency = true;
+            Console.WriteLine("Tabela Contents já existe, verificando histórico de migrações...");
+        }
+        catch {
+            Console.WriteLine("Aplicando migrações ao banco de dados...");
+            await context.Database.MigrateAsync();
+        }
+        
+        if (migrationInconsistency)
+        {
+            var appliedMigrations = await context.Database.GetAppliedMigrationsAsync();
+            if (!appliedMigrations.Contains("20250227143628_InitialSetup"))
+            {
+                await context.Database.ExecuteSqlRawAsync(
+                    "INSERT INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('20250227143628_InitialSetup', '8.0.2')");
+                Console.WriteLine("Migração registrada manualmente.");
+            }
+        }
         await DatabaseSeeder.SeedDatabase(context);
         Console.WriteLine("Banco de dados populado com sucesso!");
     }
@@ -80,7 +102,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 
