@@ -9,11 +9,50 @@ using backend.Data.Seed;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.WebHost.ConfigureKestrel(serverOptions =>
+if (builder.Environment.IsDevelopment())
 {
-    serverOptions.ListenAnyIP(5000);
-});
-
+    //local
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(5000);
+    });
+}
+else
+{
+    //prod
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(8080);
+    });
+    
+    // Carregue as variáveis de ambiente
+    Console.WriteLine("Ambiente de produção detectado");
+    
+    // Carregar DATABASE_URL
+    var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (!string.IsNullOrEmpty(connectionString))
+    {
+        Console.WriteLine("Usando string de conexão da variável DATABASE_URL");
+        builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+    }
+    else
+    {
+        Console.WriteLine("AVISO: Variável DATABASE_URL não encontrada");
+    }
+    
+    // Carregar JWT_SECRET
+    var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
+    if (!string.IsNullOrEmpty(jwtSecret))
+    {
+        Console.WriteLine($"Usando JWT Secret da variável JWT_SECRET (tamanho: {jwtSecret.Length})");
+        builder.Configuration["JwtSecret"] = jwtSecret;
+    }
+    else
+    {
+        Console.WriteLine("AVISO: JWT_SECRET não encontrado. Usando fallback.");
+        builder.Configuration["JwtSecret"] = "chave_secreta_temporaria_para_desenvolvimento_nao_usar_em_producao_real";
+    }
+}
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

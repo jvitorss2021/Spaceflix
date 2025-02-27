@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for streamflix-lylk3q on 2025-02-25T17:36:55Z
+# fly.toml app configuration file generated for spaceflix-lylk3q-billowing-forest-1132 on 2025-02-27T14:43:37-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'streamflix-lylk3q'
+app = 'spaceflix-lylk3q-billowing-forest-1132'
 primary_region = 'gru'
 
 [build]
@@ -20,4 +20,3 @@ primary_region = 'gru'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 1024
