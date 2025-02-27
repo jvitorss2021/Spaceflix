@@ -11,49 +11,33 @@ export default function Catalog() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadContents = useCallback(async () => {
+  const fetchContents = useCallback(async (query: string = "") => {
     try {
       setIsLoading(true);
-      const data = await contentService.getContents();
+      const data = query
+        ? await contentService.searchContents(query)
+        : await contentService.getContents();
       setContents(data);
       setError("");
     } catch (error) {
-      setError("Erro ao carregar o catálogo. Tente novamente.");
-      console.error("Error loading contents:", error);
+      setError(
+        query
+          ? "Erro ao buscar conteúdo. Tente novamente."
+          : "Erro ao carregar o catálogo. Tente novamente."
+      );
+      console.error("Error fetching contents:", error);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const searchContents = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const data = await contentService.searchContents(searchQuery);
-      setContents(data);
-      setError("");
-    } catch (error) {
-      setError("Erro ao buscar conteúdo. Tente novamente.");
-      console.error("Error searching contents:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [searchQuery]);
-
-  useEffect(() => {
-    loadContents();
-  }, [loadContents]);
-
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      if (searchQuery) {
-        searchContents();
-      } else {
-        loadContents();
-      }
+      fetchContents(searchQuery);
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchQuery, searchContents, loadContents]);
+  }, [searchQuery, fetchContents]);
 
   return (
     <div className="min-h-screen bg-gray-900 py-20">
