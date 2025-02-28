@@ -17,7 +17,10 @@ export default function Catalog() {
       const data = query
         ? await contentService.searchContents(query)
         : await contentService.getContents();
-      setContents(data);
+      const sortedData = [...data].sort((a, b) =>
+        a.title.localeCompare(b.title, "pt-BR")
+      );
+      setContents(sortedData);
       setError("");
     } catch (error) {
       setError(

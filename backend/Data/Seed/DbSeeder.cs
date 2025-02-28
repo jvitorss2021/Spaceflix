@@ -176,6 +176,134 @@ public static class DatabaseSeeder
                     IsFeatured = true,
                     AverageRating = 4.8
                 },
+                 new Content
+                {
+                    Title = "Nível Secreto",
+                    Description = "NÍVEL SECRETO é uma série animada de antologia para adultos, apresentando histórias originais nos mundos de alguns dos videogames mais adorados no mundo todo. Das mentes criativas por trás de LOVE, DEATH + ROBOTS, cada um dos 15 episódios é uma celebração de jogos e jogadores.",
+                    Type = "anime",
+                    ThumbnailUrl = "/images/nivel-secreto.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=HHjKzr6tLz8",
+                    Genre = "Animação, Antologia, Ficção Científica",
+                    ReleaseYear = 2024,
+                    Director = "Tim Miller, David Fincher",
+                    Cast = "Kevin Hart, Keanu Reeves, Ariana Greenblatt",
+                    DurationMinutes = 25,
+                    MaturityRating = "16",
+                    IsFeatured = true,
+                    AverageRating = 4.6
+                },
+                new Content
+                {
+                    Title = "Reacher",
+                    Description = "Jack Reacher, um investigador veterano da polícia militar, chega a uma pequena cidade e se depara com um homicídio. Logo ele se torna o principal suspeito e precisa provar sua inocência enquanto descobre uma conspiração maior.",
+                    Type = "series",
+                    ThumbnailUrl = "/images/reacher.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=GSycMV-_Csw",
+                    Genre = "Ação, Crime, Drama",
+                    ReleaseYear = 2022,
+                    Director = "Nick Santora",
+                    Cast = "Alan Ritchson, Malcolm Goodwin, Willa Fitzgerald",
+                    DurationMinutes = 49,
+                    MaturityRating = "16",
+                    IsFeatured = true,
+                    AverageRating = 4.7
+                },
+                new Content
+                {
+                    Title = "The Legend of Vox Machina",
+                    Description = "Um grupo de aventureiros desajustados embarca em uma missão para salvar o reino de Exandria de forças mágicas sombrias, enfrentando monstros, magias e seus próprios demônios internos.",
+                    Type = "anime",
+                    ThumbnailUrl = "/images/vox-machina.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=JvwxQSc-3os",
+                    Genre = "Animação, Fantasia, Aventura",
+                    ReleaseYear = 2022,
+                    Director = "Sam Riegel, Travis Willingham",
+                    Cast = "Laura Bailey, Taliesin Jaffe, Ashley Johnson, Matthew Mercer",
+                    DurationMinutes = 30,
+                    MaturityRating = "18",
+                    IsFeatured = false,
+                    AverageRating = 4.8
+                },
+                new Content
+                {
+                    Title = "Re:Zero",
+                    Description = "Subaru Natsuki é um adolescente normal transportado para um mundo de fantasia. Ao morrer, ele descobre que tem o poder de voltar no tempo, revivendo seus momentos finais para tentar mudar seu destino.",
+                    Type = "anime",
+                    ThumbnailUrl = "/images/re-zero.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=ETWPtIfesyI",
+                    Genre = "Anime, Fantasia, Drama",
+                    ReleaseYear = 2016,
+                    Director = "Masaharu Watanabe",
+                    Cast = "Yûsuke Kobayashi, Rie Takahashi, Inori Minase",
+                    DurationMinutes = 25,
+                    MaturityRating = "14",
+                    IsFeatured = false,
+                    AverageRating = 4.7
+                },
+                new Content
+                {
+                    Title = "Jujutsu Kaisen",
+                    Description = "Yuji Itadori, um estudante comum com habilidades físicas extraordinárias, se vê envolvido no mundo da feitiçaria após engolir um objeto amaldiçoado e receber os poderes de Sukuna, o 'Rei das Maldições'.",
+                    Type = "anime",
+                    ThumbnailUrl = "/images/jujutsu-kaisen.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=4A_X-Dvl0ws",
+                    Genre = "Anime, Ação, Sobrenatural",
+                    ReleaseYear = 2020,
+                    Director = "Sunghoo Park",
+                    Cast = "Junya Enoki, Yūma Uchida, Asami Seto",
+                    DurationMinutes = 24,
+                    MaturityRating = "16",
+                    IsFeatured = true,
+                    AverageRating = 4.9
+                },
+                new Content
+                {
+                    Title = "Alice in Borderland",
+                    Description = "Arisu e seus amigos são transportados para uma Tóquio alternativa e vazia, onde precisam participar de jogos perigosos para sobreviver e descobrir os segredos desse mundo misterioso.",
+                    Type = "series",
+                    ThumbnailUrl = "/images/alice-in-borderland.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=49_44FFKZ1M",
+                    Genre = "Ação, Drama, Ficção Científica",
+                    ReleaseYear = 2020,
+                    Director = "Shinsuke Sato",
+                    Cast = "Kento Yamazaki, Tao Tsuchiya, Nijiro Murakami",
+                    DurationMinutes = 50,
+                    MaturityRating = "18",
+                    IsFeatured = true,
+                    AverageRating = 4.7
+                },
+                new Content
+                {
+                    Title = "Black Mirror",
+                    Description = "Uma antologia de histórias independentes que exploram a paranoia da sociedade contemporânea em relação ao mundo tecnológico, revelando como a tecnologia moderna pode ser usada de maneiras que nunca imaginamos e com consequências assustadoras.",
+                    Type = "series",
+                    ThumbnailUrl = "/images/black-mirror.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=V0XOApF5nLU",
+                    Genre = "Ficção Científica, Drama, Thriller",
+                    ReleaseYear = 2011,
+                    Director = "Charlie Brooker",
+                    Cast = "Bryce Dallas Howard, Jon Hamm, Miley Cyrus, Anthony Mackie, Daniel Kaluuya",
+                    DurationMinutes = 60,
+                    MaturityRating = "18",
+                    IsFeatured = true,
+                    AverageRating = 4.8
+                },
+                new Content
+                {
+                    Title = "Love, Death & Robots",
+                    Description = "Uma coleção de animações que apresenta histórias curtas de ficção científica, fantasia, horror e comédia. Cada episódio é produzido por equipes diferentes de todo o mundo, utilizando estilos de animação únicos e narrativas provocantes.",
+                    Type = "anime",
+                    ThumbnailUrl = "/images/love-death-robots.webp",
+                    ContentUrl = "https://www.youtube.com/watch?v=wUFwunMKa4E",
+                    Genre = "Animação, Ficção Científica, Antologia",
+                    ReleaseYear = 2019,
+                    Director = "Tim Miller, David Fincher",
+                    Cast = "Mary Elizabeth Winstead, Topher Grace, Gary Cole, Samira Wiley",
+                    DurationMinutes = 15,
+                    MaturityRating = "18",
+                    IsFeatured = true,
+                    AverageRating = 4.7
+                },
             };
 
         var newContents = contents.Where(c => !existingTitles.Contains(c.Title)).ToList();
