@@ -11,6 +11,7 @@ interface ExpandableCardProps {
   releaseYear: number;
   genre: string;
   maturityRating: string;
+  contentUrl: string;
 }
 
 export const ExpandableCard = ({
@@ -20,8 +21,22 @@ export const ExpandableCard = ({
   releaseYear,
   genre,
   maturityRating,
+  contentUrl,
 }: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleTrailerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (contentUrl) {
+      window.open(contentUrl, "_blank", "noopener,noreferrer");
+    } else {
+      console.error("URL do trailer não disponível");
+    }
+
+    return false;
+  };
 
   return (
     <div
@@ -84,7 +99,10 @@ export const ExpandableCard = ({
                 <button className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90">
                   Assistir
                 </button>
-                <button className="px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/30">
+                <button
+                  onClick={handleTrailerClick}
+                  className="px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/30"
+                >
                   Trailer
                 </button>
               </div>

@@ -31,6 +31,7 @@ export interface Content {
   releaseYear: number;
   genre: string;
   maturityRating: string;
+  contentUrl: string;
 }
 
 export const authService = {
