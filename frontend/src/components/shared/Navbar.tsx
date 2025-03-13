@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
   { name: "Início", href: "/" },
@@ -29,7 +30,7 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-black/60 backdrop-blur-sm">
       <nav
-        className="flex scale items-center justify-between p-6 lg:px-8"
+        className="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex scale-90 lg:flex-1">
@@ -93,77 +94,101 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      <div className={`lg:hidden ${mobileMenuOpen ? "" : "hidden"}`}>
-        <div className="fixed inset-0 z-50" />
-        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="text-2xl font-bold text-white">StreamFlix</span>
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-white"
+      {/* Menu mobile */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black/70"
               onClick={() => setMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 right-0 z-50 w-full backdrop-blur-md bg-black/40 p-4 sm:max-w-sm"
             >
-              <span className="sr-only">Fechar menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-indigo-600"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+              <div className="flex items-center justify-between mb-4">
+                <Link href="/" className="-m-1.5 p-1.5">
+                  <span className="text-xl font-bold text-white">
+                    SpaceFlix
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  className="rounded-md p-2 text-white hover:bg-white/10 transition-all"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Fechar menu</span>
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
               </div>
-              <div className="py-6">
-                {user ? (
-                  <>
-                    <div className="flex items-center text-white mb-4">
-                      <UserCircleIcon className="h-6 w-6 mr-2" />
-                      <span className="text-sm font-semibold">{user.name}</span>
+
+              <div className="mt-2">
+                <div className="space-y-1 mb-4">
+                  {navigation.map((item, index) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * index }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="block rounded-lg px-4 py-2 text-base font-medium text-white hover:bg-white/10 transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="pt-2 border-t border-white/10">
+                  {user ? (
+                    <div className="space-y-2 mt-2">
+                      <div className="flex items-center text-white p-2 rounded-lg bg-white/10">
+                        <UserCircleIcon className="h-5 w-5 mr-2" />
+                        <span className="text-sm font-medium">{user.name}</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full rounded-lg py-2 text-center text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 transition-colors"
+                      >
+                        Sair
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-600"
-                    >
-                      Sair
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      href="/login"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-600"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Entrar
-                    </Link>
-                    <Link
-                      href="/signup"
-                      className="mt-4 block rounded-lg bg-indigo-600 px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Começar
-                    </Link>
-                  </>
-                )}
+                  ) : (
+                    <div className="flex flex-col space-y-2 mt-2">
+                      <Link
+                        href="/login"
+                        className="block rounded-lg py-2 text-center text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Entrar
+                      </Link>
+                      <Link
+                        href="/signup"
+                        className="block rounded-lg py-2 text-center text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Começar
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

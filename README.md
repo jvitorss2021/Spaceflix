@@ -96,5 +96,3 @@ Este projeto foi desenvolvido como uma demonstração de habilidades full-stack,
 - Autenticação segura
 
 ---
-
-Desenvolvido com ❤️ para os amantes de streaming e tecnologia.
