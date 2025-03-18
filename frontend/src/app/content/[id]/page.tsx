@@ -66,24 +66,41 @@ export default function ContentDetail() {
     );
   }
 
-  // Determinar qual imagem de fundo usar
-  const backgroundImage =
-    content.title === "The Office"
-      ? "/images/TheOffice.webp"
-      : content.thumbnailUrl;
+  const getBackgroundImage = (title: string): string => {
+    const backgroundMap: Record<string, string> = {
+      "The Office": "/images/TheOffice.webp",
+      "Breaking Bad": "/images/breakingbad-bg.webp",
+      Vikings: "/images/vikings-bg.webp",
+      Interestelar: "/images/interstelar-bg.webp",
+      "Demon Slayer": "/images/demonslayer-bg.webp",
+      "Hunter x Hunter": "/images/hunterxhunter-bg.webp",
+      "Black Mirror": "/images/blackmirror-bg.webp",
+      "Jujutsu Kaisen": "/images/jujutsukaisen-bg.webp",
+      "Nível Secreto": "/images/nivelsecreto-bg.webp",
+      "Alice in Borderland": "/images/aliceinborderland-bg.webp",
+      Invencível: "/images/invencivel-bg.webp",
+      "Love, Death & Robots": "/images/lovedeathrobots-bg.webp",
+      "re:zero": "/images/rezero-bg.webp",
+    };
+
+    return backgroundMap[title] || content?.thumbnailUrl || "";
+  };
+
+  const backgroundImage = getBackgroundImage(content.title);
 
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Hero section com imagem de fundo */}
+      {/* Hero section com imagem de fundo em altura total */}
       <div
-        className="relative h-[60vh] w-full"
+        className="relative h-[100vh] w-full"
         style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(17,24,39,1)), url(${backgroundImage})`,
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.1) 60%, rgba(17,24,39,1) 95%), url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundAttachment: "fixed", // Mantém a imagem fixa durante o scroll
         }}
       >
-        <div className="absolute bottom-0 left-0 p-8 sm:p-16 w-full">
+        <div className="absolute bottom-[15%] left-0 p-8 sm:p-16 w-full">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             {content.title}
           </h1>
@@ -98,7 +115,7 @@ export default function ContentDetail() {
       </div>
 
       {/* Conteúdo e detalhes */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-40 relative z-10">
         <div className="grid md:grid-cols-3 gap-8">
           {/* Coluna da esquerda com thumbnail */}
           <div className="hidden md:block">
@@ -113,7 +130,7 @@ export default function ContentDetail() {
           </div>
 
           {/* Coluna central com detalhes */}
-          <div className="md:col-span-2 text-white">
+          <div className="md:col-span-2 text-white bg-gray-900/80 p-6 backdrop-blur-sm rounded-lg shadow-xl">
             <div className="mb-8">
               <Button
                 as="a"
