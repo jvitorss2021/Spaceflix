@@ -26,6 +26,7 @@ export interface User {
 export interface Content {
   id: number;
   title: string;
+  type: string;
   description: string;
   thumbnailUrl: string;
   releaseYear: number;

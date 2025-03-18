@@ -214,7 +214,7 @@ export default function Catalog() {
                   : "Animes"}
               </span>
             )}
-            {searchQuery && <span> com "{searchQuery}"</span>}
+            {searchQuery && <span> com {searchQuery}</span>}
           </div>
         )}
       </div>
