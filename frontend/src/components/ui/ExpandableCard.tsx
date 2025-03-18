@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface ExpandableCardProps {
+  id: string;
   title: string;
   description: string;
   thumbnailUrl: string;
@@ -15,6 +17,7 @@ interface ExpandableCardProps {
 }
 
 export const ExpandableCard = ({
+  id,
   title,
   description,
   thumbnailUrl,
@@ -24,6 +27,7 @@ export const ExpandableCard = ({
   contentUrl,
 }: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
 
   const handleTrailerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -96,7 +100,10 @@ export const ExpandableCard = ({
               <p className="text-gray-300 text-sm mb-4">{description}</p>
 
               <div className="flex gap-2">
-                <button className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90">
+                <button
+                  onClick={() => router.push(`/content/${id}`)}
+                  className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90"
+                >
                   Assistir
                 </button>
                 <button

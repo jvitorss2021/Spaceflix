@@ -33,6 +33,8 @@ export interface Content {
   genre: string;
   maturityRating: string;
   contentUrl: string;
+  director: string;
+  cast: string;
 }
 
 export const authService = {

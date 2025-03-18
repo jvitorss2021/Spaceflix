@@ -184,6 +184,7 @@ export default function Catalog() {
             {contents.map((content) => (
               <ExpandableCard
                 key={content.id}
+                id={String(content.id)}
                 title={content.title}
                 description={content.description}
                 thumbnailUrl={content.thumbnailUrl}
