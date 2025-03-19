@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useAuth } from "@/contexts/AuthContext";
 import { authService } from "@/services/api";
 import { BackgroundBeams } from "@/components/ui/Backgroundbeams";
 
 export default function Login() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +31,7 @@ export default function Login() {
       setUser(response);
 
       // Redirecionar para o catálogo
-      router.push("/catalog");
+      window.location.href = "/catalog";
     } catch (error) {
       console.error("Login error:", error);
       setError("Email ou senha inválidos");
