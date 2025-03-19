@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
 import { useAuth } from "@/contexts/AuthContext";
 import { authService } from "@/services/api";
 import { BackgroundBeams } from "@/components/ui/Backgroundbeams";

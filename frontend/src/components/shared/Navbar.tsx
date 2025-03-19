@@ -8,7 +8,6 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
@@ -20,11 +19,10 @@ const navigation = [
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, setUser } = useAuth();
-  const router = useRouter();
 
   const handleLogout = () => {
     setUser(null);
-    router.push("/");
+    window.location.href = "/";
   };
 
   return (

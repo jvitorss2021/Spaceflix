@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { contentService, Content } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 import { ExpandableCard } from "@/components/ui/ExpandableCard";
 import { Button } from "@/components/ui/MovingBorder";
 
@@ -12,6 +13,13 @@ export default function Catalog() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const { user, isLoading: isAuthLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthLoading && !user) {
+      window.location.href = "/login";
+    }
+  }, [user, isAuthLoading]);
 
   const fetchContents = useCallback(
     async (query: string = "", type: string | null = null) => {
@@ -21,12 +29,10 @@ export default function Catalog() {
           ? await contentService.searchContents(query)
           : await contentService.getContents();
 
-        // Filtrar por tipo se um tipo estiver selecionado
         if (type) {
           data = data.filter((content) => content.type === type);
         }
 
-        // Ordenar em ordem alfabética
         const sortedData = [...data].sort((a, b) =>
           a.title.localeCompare(b.title, "pt-BR")
         );
@@ -58,6 +64,14 @@ export default function Catalog() {
   const handleTypeFilter = (type: string) => {
     setSelectedType(selectedType === type ? null : type);
   };
+
+  if (isAuthLoading || !user) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 py-20">
