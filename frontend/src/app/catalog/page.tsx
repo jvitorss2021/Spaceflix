@@ -191,7 +191,6 @@ export default function Catalog() {
                 releaseYear={content.releaseYear}
                 genre={content.genre}
                 maturityRating={content.maturityRating}
-                contentUrl={content.contentUrl}
               />
             ))}
           </div>

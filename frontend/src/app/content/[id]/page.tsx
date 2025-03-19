@@ -135,18 +135,38 @@ export default function ContentDetail() {
 
           {/* Coluna central com detalhes */}
           <div className="md:col-span-2 text-white bg-gray-900/80 p-6 backdrop-blur-sm rounded-lg shadow-xl">
-            <div className="mb-8">
+            <div className="mb-8 flex flex-col sm:flex-row gap-4">
               <Button
                 as="a"
                 href={content.contentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="!text-lg flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 transition-colors px-8 py-4"
-                containerClassName="w-auto h-14"
+                className="!text-lg flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 transition-colors px-8 py-4"
+                containerClassName="w-full sm:w-auto h-14"
                 borderClassName="bg-[radial-gradient(#818cf8_40%,transparent_60%)]"
               >
                 <PlayIcon className="h-5 w-5" />
                 Assistir Agora
+              </Button>
+
+              <Button
+                as="a"
+                href={content.contentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="!text-lg flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 transition-colors px-8 py-4"
+                containerClassName="w-full sm:w-auto h-14"
+                borderClassName="bg-[radial-gradient(#818cf8_40%,transparent_60%)]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path d="M4 2.691a1 1 0 01.5-.09l14.5 5.5a1 1 0 010 1.81l-14.5 5.5a1 1 0 01-1.405-.914V3.605A1 1 0 014 2.691z" />
+                </svg>
+                Ver Trailer
               </Button>
             </div>
 

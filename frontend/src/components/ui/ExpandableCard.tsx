@@ -13,7 +13,6 @@ interface ExpandableCardProps {
   releaseYear: number;
   genre: string;
   maturityRating: string;
-  contentUrl: string;
 }
 
 export const ExpandableCard = ({
@@ -24,23 +23,11 @@ export const ExpandableCard = ({
   releaseYear,
   genre,
   maturityRating,
-  contentUrl,
 }: ExpandableCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
 
-  const handleTrailerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    if (contentUrl) {
-      window.open(contentUrl, "_blank", "noopener,noreferrer");
-    } else {
-      console.error("URL do trailer não disponível");
-    }
-
-    return false;
-  };
+  // Podemos remover o handleTrailerClick pois não será mais usado
 
   return (
     <div
@@ -68,7 +55,7 @@ export const ExpandableCard = ({
         <div className="absolute inset-0 p-4 flex flex-col justify-end">
           <motion.div
             animate={{
-              y: isExpanded ? 0 : 0, // Removido o deslocamento inicial
+              y: isExpanded ? 0 : 0,
             }}
             transition={{
               duration: 0.5,
@@ -101,17 +88,15 @@ export const ExpandableCard = ({
 
               <div className="flex gap-2">
                 <button
-                  onClick={() => router.push(`/content/${id}`)}
-                  className="px-4 py-2 bg-white text-black rounded-md hover:bg-white/90"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/content/${id}`);
+                  }}
+                  className="w-full px-4 py-2 bg-white text-black rounded-md hover:bg-white/90"
                 >
                   Assistir
                 </button>
-                <button
-                  onClick={handleTrailerClick}
-                  className="px-4 py-2 bg-white/20 text-white rounded-md hover:bg-white/30"
-                >
-                  Trailer
-                </button>
+                {/* Removido o botão de trailer */}
               </div>
             </motion.div>
           </motion.div>
