@@ -80,7 +80,11 @@ export default function ContentDetail() {
       "Alice in Borderland": "/images/aliceinborderland-bg.webp",
       Invencível: "/images/invencivel-bg.webp",
       "Love, Death & Robots": "/images/lovedeathrobots-bg.webp",
-      "re:zero": "/images/rezero-bg.webp",
+      "Re:Zero": "/images/rezero-bg.webp",
+      Reacher: "/images/reacher-bg.webp",
+      "The 100": "/images/the100-bg.webp",
+      "The Legend of Vox Machina": "/images/voxmachina-bg.webp",
+      "Vis a Vis": "/images/visavis-bg.webp",
     };
 
     return backgroundMap[title] || content?.thumbnailUrl || "";
