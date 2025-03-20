@@ -3,13 +3,20 @@
 import { BackgroundBeams } from "../ui/Backgroundbeams";
 import { SparklesCore } from "../ui/Sparklescore";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Hero() {
   const router = useRouter();
+  const { user } = useAuth();
+
+  // Verificar se o usuário tem uma assinatura
+  const hasSubscription =
+    user && user.subscriptionPlan && user.subscriptionPlan !== "free";
 
   const handleNavigateToCatalog = () => {
     router.push("/catalog");
   };
+
   const handleScrollToFeatures = () => {
     // Rola suavemente até a seção de Features
     const featuresSection = document.getElementById("features");
@@ -50,23 +57,41 @@ export default function Hero() {
         </div>
 
         <div className="flex flex-col items-center justify-center mt-8">
+          {/* Saudação personalizada se estiver logado */}
+          {user && (
+            <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl mb-2">
+              Bem-vindo de volta, {user.name}!
+            </p>
+          )}
+
+          {/* Mensagem principal - muda com base na assinatura */}
           <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl">
-            Um universo de filmes, séries e documentários para você explorar
+            {hasSubscription
+              ? `Aproveite seu plano ${
+                  user?.subscriptionPlan?.charAt(0).toUpperCase() +
+                  user?.subscriptionPlan?.slice(1)
+                }!`
+              : "Um universo de filmes, séries e documentários para você explorar"}
           </p>
 
           <div className="mt-8 flex gap-4">
+            {/* Botão principal - texto muda com base no login */}
             <button
               onClick={handleNavigateToCatalog}
               className="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-all"
             >
-              Começar Agora
+              {user ? "Continuar Assistindo" : "Começar Agora"}
             </button>
-            <button
-              onClick={handleScrollToFeatures}
-              className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all"
-            >
-              Saiba Mais
-            </button>
+
+            {/* Botão "Saiba Mais" - só aparece se não tiver assinatura */}
+            {!hasSubscription && (
+              <button
+                onClick={handleScrollToFeatures}
+                className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all"
+              >
+                Saiba Mais
+              </button>
+            )}
           </div>
         </div>
       </div>

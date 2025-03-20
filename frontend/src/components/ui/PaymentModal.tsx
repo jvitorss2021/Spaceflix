@@ -1,8 +1,12 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "@/contexts/AuthContext";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
+import { userService } from "@/services/api";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -19,6 +23,57 @@ export function PaymentModal({
   onClose,
   selectedPlan,
 }: PaymentModalProps) {
+  const { user, setUser } = useAuth();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [formData, setFormData] = useState({
+    cardNumber: "",
+    expiry: "",
+    cvv: "",
+    name: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!user) {
+      toast.error("Você precisa estar logado para assinar um plano");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Simulação de processamento de pagamento
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      const updatedUser = await userService.updateSubscription({
+        plan: selectedPlan?.name.toLowerCase() || "free",
+      });
+
+      setUser(updatedUser);
+
+      Cookies.set("user", JSON.stringify(updatedUser), {
+        expires: 30,
+        path: "/",
+      });
+
+      toast.success(`Parabéns! Você assinou o plano ${selectedPlan?.name}`);
+      onClose();
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Erro ao processar pagamento:", error);
+      toast.error("Ocorreu um erro ao processar o pagamento. Tente novamente.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -51,6 +106,7 @@ export function PaymentModal({
                     type="button"
                     className="rounded-md bg-transparent text-gray-400 hover:text-gray-500"
                     onClick={onClose}
+                    disabled={isProcessing}
                   >
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
@@ -65,20 +121,24 @@ export function PaymentModal({
                       Assinar {selectedPlan?.name}
                     </Dialog.Title>
                     <div className="mt-2">
-                      <form className="space-y-6">
+                      <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                           <label
-                            htmlFor="card-number"
+                            htmlFor="cardNumber"
                             className="block text-sm font-medium text-gray-300"
                           >
                             Número do Cartão
                           </label>
                           <input
                             type="text"
-                            name="card-number"
-                            id="card-number"
+                            name="cardNumber"
+                            id="cardNumber"
+                            value={formData.cardNumber}
+                            onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 text-white shadow-sm p-2"
                             placeholder="1234 5678 9012 3456"
+                            required
+                            disabled={isProcessing}
                           />
                         </div>
 
@@ -94,8 +154,12 @@ export function PaymentModal({
                               type="text"
                               name="expiry"
                               id="expiry"
+                              value={formData.expiry}
+                              onChange={handleChange}
                               className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 text-white shadow-sm p-2"
                               placeholder="MM/AA"
+                              required
+                              disabled={isProcessing}
                             />
                           </div>
                           <div>
@@ -109,8 +173,12 @@ export function PaymentModal({
                               type="text"
                               name="cvv"
                               id="cvv"
+                              value={formData.cvv}
+                              onChange={handleChange}
                               className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 text-white shadow-sm p-2"
                               placeholder="123"
+                              required
+                              disabled={isProcessing}
                             />
                           </div>
                         </div>
@@ -126,18 +194,48 @@ export function PaymentModal({
                             type="text"
                             name="name"
                             id="name"
+                            value={formData.name}
+                            onChange={handleChange}
                             className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 text-white shadow-sm p-2"
                             placeholder="Nome completo"
+                            required
+                            disabled={isProcessing}
                           />
                         </div>
 
                         <div className="mt-8">
                           <button
                             type="submit"
-                            className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            disabled={isProcessing}
+                            className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-70"
                           >
-                            Confirmar Assinatura - {selectedPlan?.price}
-                            {selectedPlan?.frequency}
+                            {isProcessing ? (
+                              <span className="flex items-center justify-center">
+                                <svg
+                                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  ></circle>
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  ></path>
+                                </svg>
+                                Processando...
+                              </span>
+                            ) : (
+                              `Confirmar Assinatura - ${selectedPlan?.price}${selectedPlan?.frequency}`
+                            )}
                           </button>
                         </div>
                       </form>

@@ -37,6 +37,10 @@ export interface Content {
   cast: string;
 }
 
+export interface SubscriptionData {
+  plan: string;
+}
+
 export const authService = {
   async login(data: LoginData): Promise<User> {
     const response = await api.post("/auth/login", data);
@@ -45,6 +49,13 @@ export const authService = {
 
   async register(data: RegisterData): Promise<User> {
     const response = await api.post("/auth/register", data);
+    return response.data;
+  },
+};
+
+export const userService = {
+  updateSubscription: async (data: SubscriptionData): Promise<User> => {
+    const response = await api.post("/user/subscription", data);
     return response.data;
   },
 };
