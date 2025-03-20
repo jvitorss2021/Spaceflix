@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
@@ -36,6 +37,23 @@ export interface Content {
   director: string;
   cast: string;
 }
+
+api.interceptors.request.use((config) => {
+  const userString = Cookies.get("user");
+
+  if (userString) {
+    try {
+      const user = JSON.parse(userString);
+      if (user && user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    } catch (error) {
+      console.error("Erro ao processar cookie do usuário:", error);
+    }
+  }
+
+  return config;
+});
 
 export interface SubscriptionData {
   plan: string;
