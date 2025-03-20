@@ -126,15 +126,6 @@ export default function Login() {
                   Lembrar de mim
                 </label>
               </div>
-
-              <div className="text-sm">
-                <Link
-                  href="/forgot-password"
-                  className="font-medium text-indigo-400 hover:text-indigo-300"
-                >
-                  Esqueceu sua senha?
-                </Link>
-              </div>
             </div>
 
             <div>
