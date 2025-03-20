@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
 
   const isProtectedRoute =
     request.nextUrl.pathname.startsWith("/catalog") ||
-    request.nextUrl.pathname.startsWith("/content");
+    request.nextUrl.pathname.startsWith("/content") ||
+    request.nextUrl.pathname.startsWith("/content/id");
 
   console.log(
     `Path: ${request.nextUrl.pathname}, User: ${user ? "Logged" : "Not logged"}`
