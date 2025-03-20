@@ -9,7 +9,6 @@ export default function Hero() {
   const router = useRouter();
   const { user } = useAuth();
 
-  // Verificar se o usuário tem uma assinatura
   const hasSubscription =
     user && user.subscriptionPlan && user.subscriptionPlan !== "free";
 
@@ -18,7 +17,6 @@ export default function Hero() {
   };
 
   const handleScrollToFeatures = () => {
-    // Rola suavemente até a seção de Features
     const featuresSection = document.getElementById("features");
     if (featuresSection) {
       featuresSection.scrollIntoView({ behavior: "smooth" });
@@ -43,14 +41,19 @@ export default function Hero() {
           <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
 
           {/* Sparkles Effect */}
-          <SparklesCore
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={1200}
-            className="w-full h-full"
-            particleColor="#FFFFFF"
-          />
+          <div
+            className="absolute inset-0"
+            style={{ height: "160px", width: "100%" }}
+          >
+            <SparklesCore
+              background="transparent"
+              minSize={0.4}
+              maxSize={1}
+              particleDensity={1200}
+              className="w-full h-full"
+              particleColor="#FFFFFF"
+            />
+          </div>
 
           {/* Radial Gradient Mask */}
           <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]" />
@@ -83,15 +86,12 @@ export default function Hero() {
               {user ? "Continuar Assistindo" : "Começar Agora"}
             </button>
 
-            {/* Botão "Saiba Mais" - só aparece se não tiver assinatura */}
-            {!hasSubscription && (
-              <button
-                onClick={handleScrollToFeatures}
-                className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all"
-              >
-                Saiba Mais
-              </button>
-            )}
+            <button
+              onClick={handleScrollToFeatures}
+              className="px-6 py-3 border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all"
+            >
+              Saiba Mais
+            </button>
           </div>
         </div>
       </div>
