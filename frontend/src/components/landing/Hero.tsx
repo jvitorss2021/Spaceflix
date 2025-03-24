@@ -64,18 +64,14 @@ export default function Hero() {
           {user && (
             <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl mb-2">
               Bem-vindo de volta, {user.name}!
+              {hasSubscription
+                ? ` Aproveite seu plano ${
+                    user?.subscriptionPlan?.charAt(0).toUpperCase() +
+                    user?.subscriptionPlan?.slice(1)
+                  }!`
+                : "Um universo de filmes, séries e documentários para você explorar"}
             </p>
           )}
-
-          {/* Mensagem principal - muda com base na assinatura */}
-          <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl">
-            {hasSubscription
-              ? `Aproveite seu plano ${
-                  user?.subscriptionPlan?.charAt(0).toUpperCase() +
-                  user?.subscriptionPlan?.slice(1)
-                }!`
-              : "Um universo de filmes, séries e documentários para você explorar"}
-          </p>
 
           <div className="mt-8 flex gap-4">
             {/* Botão principal - texto muda com base no login */}
