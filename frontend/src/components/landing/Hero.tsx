@@ -9,9 +9,6 @@ export default function Hero() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const hasSubscription =
-    user && user.subscriptionPlan && user.subscriptionPlan !== "free";
-
   const handleNavigateToCatalog = () => {
     router.push("/catalog");
   };
@@ -60,16 +57,17 @@ export default function Hero() {
         </div>
 
         <div className="flex flex-col items-center justify-center mt-8">
-          {/* Saudação personalizada se estiver logado */}
-          {user && (
+          {/* Mensagem principal - muda com base na assinatura */}
+          {user ? (
             <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl mb-2">
-              Bem-vindo de volta, {user.name}!{" "}
-              {hasSubscription
-                ? `Aproveite seu plano ${
-                    user?.subscriptionPlan?.charAt(0).toUpperCase() +
-                    user?.subscriptionPlan?.slice(1)
-                  }!`
-                : "Um universo de filmes, séries e documentários para você explorar"}
+              Bem-vindo de volta, {user.name}! Aproveite seu plano{" "}
+              {user.subscriptionPlan.charAt(0).toUpperCase() +
+                user.subscriptionPlan.slice(1)}
+              !
+            </p>
+          ) : (
+            <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl mb-2">
+              Um universo de filmes, séries e documentários para você explorar
             </p>
           )}
 
