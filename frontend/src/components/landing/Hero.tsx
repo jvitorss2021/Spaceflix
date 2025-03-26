@@ -63,9 +63,9 @@ export default function Hero() {
           {/* Saudação personalizada se estiver logado */}
           {user && (
             <p className="text-xl md:text-2xl text-white/80 text-center max-w-2xl mb-2">
-              Bem-vindo de volta, {user.name}!
+              Bem-vindo de volta, {user.name}!{" "}
               {hasSubscription
-                ? ` Aproveite seu plano ${
+                ? `Aproveite seu plano ${
                     user?.subscriptionPlan?.charAt(0).toUpperCase() +
                     user?.subscriptionPlan?.slice(1)
                   }!`
