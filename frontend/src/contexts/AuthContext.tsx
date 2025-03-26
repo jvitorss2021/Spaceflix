@@ -3,10 +3,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { User } from "@/services/api";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  logout: () => void;
   isLoading: boolean;
 }
 
@@ -15,6 +17,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const savedUser = Cookies.get("user");
@@ -38,8 +41,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const logout = () => {
+    setUser(null);
+    Cookies.remove("user");
+    router.push("/login");
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser: handleSetUser, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, setUser: handleSetUser, logout, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
