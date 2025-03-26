@@ -3,23 +3,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { contentService, Content } from "@/services/api";
-import { useAuth } from "@/contexts/AuthContext";
+import { useProtectedRoute } from "@/utils/useProtecdRoute";
 import { ExpandableCard } from "@/components/ui/ExpandableCard";
 import { Button } from "@/components/ui/MovingBorder";
 
 export default function Catalog() {
+  const { user, isLoading: isAuthLoading } = useProtectedRoute();
   const [contents, setContents] = useState<Content[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const { user, isLoading: isAuthLoading } = useAuth();
-
-  useEffect(() => {
-    if (!isAuthLoading && !user) {
-      window.location.href = "/login";
-    }
-  }, [user, isAuthLoading]);
 
   const fetchContents = useCallback(
     async (query: string = "", type: string | null = null) => {
