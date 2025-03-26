@@ -11,6 +11,7 @@ export function useProtectedRoute() {
   useEffect(() => {
     if (!isLoading && !user) {
       router.replace("/login");
+      window.location.reload();
     }
   }, [user, isLoading, router]);
 
