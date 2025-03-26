@@ -35,12 +35,31 @@ export function middleware(request: NextRequest) {
   if (isAuthPage && user) {
     const response = NextResponse.redirect(new URL("/catalog", request.url));
     response.headers.set("x-redirected-from", request.nextUrl.pathname);
+    response.headers.set(
+      "Cache-Control",
+      "no-store, max-age=0, must-revalidate"
+    );
     return response;
   }
 
   if (isProtectedRoute && !user) {
     const response = NextResponse.redirect(new URL("/login", request.url));
     response.headers.set("x-redirected-from", request.nextUrl.pathname);
+    response.headers.set(
+      "Cache-Control",
+      "no-store, max-age=0, must-revalidate"
+    );
+    return response;
+  }
+
+  if (isProtectedRoute) {
+    const response = NextResponse.next();
+    response.headers.set(
+      "Cache-Control",
+      "no-store, max-age=0, must-revalidate"
+    );
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
     return response;
   }
 
